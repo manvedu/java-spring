@@ -9,17 +9,17 @@
     <bean id="eventDao" class="org.example.dao.EventDao"/>
     <bean id="ticketDao" class="org.example.dao.TicketDao"/>
 
-    <!-- Service Beans with setter-based injection -->
-    <bean id="userService" class="org.example.service.UserService">
-        <property name="userDao" ref="userDao"/>
+    <!-- Service Beans with dao bean with autowire -->
+    <bean id="userService" class="org.example.service.UserService" autowire="byType"/>
+    <bean id="eventService" class="org.example.service.EventService" autowire="byType"/>
+    <bean id="ticketService" class="org.example.service.TicketService" autowire="byType"/>
+
+    <bean id="storageInitializer" class="org.example.initializer.StorageInitializer">
+        <property name="dataFilePath" value="${data.file.path}"/>
     </bean>
 
-    <bean id="eventService" class="org.example.service.EventService">
-        <property name="eventDao" ref="eventDao"/>
-    </bean>
-
-    <bean id="ticketService" class="org.example.service.TicketService">
-        <property name="ticketDao" ref="ticketDao"/>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:application.properties"/>
     </bean>
 
     <!-- BookingFacade Bean with constructor-based injection -->
