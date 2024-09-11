@@ -5,4 +5,8 @@ public class Ticket {
     private Long eventId;
     private Long userId;
     private int seatNumber;
+
+    public Long getId() {
+        return id;
+    }
 }
