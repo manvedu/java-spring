@@ -23,6 +23,7 @@ public class UserService {
     }
 
     public User getUser(Long id) {
+        logger.info("UserService - getUser by id: " + id);
         return userDao.getById(id);
     }
 }
