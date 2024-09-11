@@ -3,9 +3,13 @@ package org.example.service;
 import org.example.dao.UserDao;
 import org.example.model.User;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private UserDao userDao;
 
     @Autowired
@@ -14,6 +18,7 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        logger.info("UserService - createUser: " + user.getName());
         return userDao.save(user);
     }
 
