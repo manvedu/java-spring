@@ -6,6 +6,13 @@ public class Ticket {
     private Long userId;
     private int seatNumber;
 
+    public Ticket(long id, Long eventId, Long userId, int seatNumber) {
+        this.id = id;
+        this.eventId = eventId;
+        this.userId = userId;
+        this.seatNumber = seatNumber;
+    }
+
     public Long getId() {
         return id;
     }

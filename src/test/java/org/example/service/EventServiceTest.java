@@ -1,7 +1,6 @@
 package org.example.service;
 
 import org.example.dao.EventDao;
-import org.example.dao.UserDao;
 import org.example.model.Event;
 
 import org.example.model.User;
