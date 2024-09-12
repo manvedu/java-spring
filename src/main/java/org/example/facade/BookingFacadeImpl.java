@@ -21,16 +21,16 @@ public class BookingFacadeImpl implements BookingFacade{
 
     @Override
     public User createUser(User user) {
-        return null;
+        return userService.createUser(user);
     }
 
     @Override
     public Event createEvent(Event event) {
-        return null;
+        return eventService.createEvent(event);
     }
 
     @Override
     public Ticket bookTicket(Ticket ticket) {
-        return null;
+        return ticketService.bookTicket(ticket);
     }
 }
