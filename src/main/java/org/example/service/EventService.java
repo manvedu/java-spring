@@ -17,7 +17,8 @@ public class EventService {
         this.eventDao = eventDao;
     }
 
-    public Event createEvent(Event event) {
+    public Event createEvent(Long id, String title, String description, String date) {
+        Event event = new Event(id, title, description, date);
         logger.info("EventService - createEvent: " + event);
         return eventDao.save(event);
     }

@@ -25,8 +25,8 @@ public class BookingFacadeImpl implements BookingFacade{
     }
 
     @Override
-    public Event createEvent(Event event) {
-        return eventService.createEvent(event);
+    public Event createEvent(Long id, String title, String description, String date) {
+        return eventService.createEvent(id, title, description, date);
     }
 
     @Override

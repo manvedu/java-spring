@@ -55,13 +55,16 @@ public class BookingFacadeImplTest {
     @Test
     public void testCreateEvent() {
 
-        String title = "Michael Jackson";
         Long eventId = 1L;
-        Event event = new Event(eventId, title, "Just a normal concert"," 2024-10-10" );
-        when(eventService.createEvent(event)).thenReturn(event);
-        Event createdEvent = bookingFacade.createEvent(event);
+        String title = "Michael Jackson";
+        String description = "Just a normal concert";
+        String date = " 2024-10-10";
+        Event event = new Event(eventId, title, description, date);
 
-        verify(eventService, times(1)).createEvent(event);
+        when(eventService.createEvent(eventId, title, description, date)).thenReturn(event);
+        Event createdEvent = bookingFacade.createEvent(eventId, title, description, date);
+
+        verify(eventService, times(1)).createEvent(eventId, title, description, date);
         assertEquals(eventId, createdEvent.getId());
     }
 

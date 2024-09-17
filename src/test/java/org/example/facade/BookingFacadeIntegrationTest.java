@@ -12,35 +12,33 @@ import static org.junit.Assert.*;
 
 public class BookingFacadeIntegrationTest {
 
-    @Test
-    public void testBookingFacade() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+	@Test
+		public void testBookingFacade() {
+			ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-        BookingFacade bookingFacade = context.getBean("bookingFacade", BookingFacade.class);
-        UserService userService = context.getBean("userService", UserService.class);
-        EventService eventService = context.getBean("eventService", EventService.class);
-        TicketService ticketService = context.getBean("ticketService", TicketService.class);
+			BookingFacade bookingFacade = context.getBean("bookingFacade", BookingFacade.class);
+			UserService userService = context.getBean("userService", UserService.class);
+			EventService eventService = context.getBean("eventService", EventService.class);
+			TicketService ticketService = context.getBean("ticketService", TicketService.class);
 
-        Long userId = 1L;
-        String userName = "testUser";
-        User user = bookingFacade.createUser(userId, userName, "john@example.com");
+			Long userId = 1L;
+			String userName = "testUser";
+			User user = bookingFacade.createUser(userId, userName, "john@example.com");
 
-        User createdUser = userService.getUser(userId) ;
-        assertEquals(userName, createdUser.getName());
+			User createdUser = userService.getUser(userId) ;
+			assertEquals(userName, createdUser.getName());
 
-        Long eventId = 1L;
-        Event event = new Event(eventId, "Concert", "It' a festival", "2014-10-10");
-        bookingFacade.createEvent(event);
+			Long eventId = 1L;
+      Event event = bookingFacade.createEvent(eventId, "Concert", "It' a festival", "2014-10-10");
 
-        Event createdEvent = eventService.getEvent(event.getId());
-        assertEquals(eventId, createdEvent.getId());
+      Event createdEvent = eventService.getEvent(event.getId());
+      assertEquals(eventId, createdEvent.getId());
 
+      Long ticketId = 7L;
+      Ticket ticket = new Ticket(ticketId, user.getId(), event.getId(), 333);
+      bookingFacade.bookTicket(ticket);
 
-        Long ticketId = 7L;
-        Ticket ticket = new Ticket(ticketId, user.getId(), event.getId(), 333);
-        bookingFacade.bookTicket(ticket);
-
-        Ticket bookedTicket = ticketService.getTicket(ticket.getId());
-        assertEquals(ticketId, bookedTicket.getId());
+      Ticket bookedTicket = ticketService.getTicket(ticket.getId());
+      assertEquals(ticketId, bookedTicket.getId());
     }
 }

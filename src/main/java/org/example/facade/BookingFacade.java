@@ -6,6 +6,6 @@ import org.example.model.Ticket;
 
 public interface BookingFacade {
     User createUser(Long id, String name, String email);
-    Event createEvent(Event event);
+    Event createEvent(Long id, String title, String description, String date);
     Ticket bookTicket(Ticket ticket);
 }
