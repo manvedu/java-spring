@@ -54,7 +54,6 @@ public class BookingFacadeImplTest {
 
     @Test
     public void testCreateEvent() {
-
         Long eventId = 1L;
         String title = "Michael Jackson";
         String description = "Just a normal concert";
@@ -70,14 +69,13 @@ public class BookingFacadeImplTest {
 
     @Test
     public void testBookTicket() {
-
         Long ticketId = 1L;
         Ticket ticket = new Ticket(ticketId, 1L, 1L, 123);
 
-        when(ticketService.bookTicket(ticket)).thenReturn(ticket);
-        Ticket createdTicket = bookingFacade.bookTicket(ticket);
+        when(ticketService.bookTicket(ticketId, 1L, 1L, 123)).thenReturn(ticket);
+        Ticket createdTicket = bookingFacade.bookTicket(ticketId, 1L, 1L, 123);
 
-        verify(ticketService, times(1)).bookTicket(ticket);
+        verify(ticketService, times(1)).bookTicket(ticketId, 1L, 1L, 123);
         assertEquals(ticketId, createdTicket.getId());
     }
 }

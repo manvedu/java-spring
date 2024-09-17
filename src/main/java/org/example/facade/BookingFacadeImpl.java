@@ -30,7 +30,7 @@ public class BookingFacadeImpl implements BookingFacade{
     }
 
     @Override
-    public Ticket bookTicket(Ticket ticket) {
-        return ticketService.bookTicket(ticket);
+    public Ticket bookTicket(Long id, Long eventId, Long userId, int seatNumber) {
+        return ticketService.bookTicket(id, eventId, userId, seatNumber);
     }
 }

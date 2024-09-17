@@ -17,7 +17,8 @@ public class TicketService {
         this.ticketDao = ticketDao;
     }
 
-    public Ticket bookTicket(Ticket ticket) {
+    public Ticket bookTicket(Long id, Long eventId, Long userId, int seatNumber) {
+        Ticket ticket = new Ticket(id, eventId, userId, seatNumber);
         logger.info("TicketService - bookTicket: " + ticket);
         return ticketDao.save(ticket);
     }

@@ -35,8 +35,7 @@ public class BookingFacadeIntegrationTest {
       assertEquals(eventId, createdEvent.getId());
 
       Long ticketId = 7L;
-      Ticket ticket = new Ticket(ticketId, user.getId(), event.getId(), 333);
-      bookingFacade.bookTicket(ticket);
+      Ticket ticket = bookingFacade.bookTicket(ticketId, user.getId(), event.getId(), 333);
 
       Ticket bookedTicket = ticketService.getTicket(ticket.getId());
       assertEquals(ticketId, bookedTicket.getId());

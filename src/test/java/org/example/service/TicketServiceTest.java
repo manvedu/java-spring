@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
+import org.mockito.ArgumentCaptor;
 import static org.junit.Assert.*;
 
 public class TicketServiceTest {
@@ -19,18 +20,26 @@ public class TicketServiceTest {
     private TicketDao ticketDao;
 
     @InjectMocks
-    private  TicketService ticketService;
+    private TicketService ticketService;
+    private Ticket mockedTicket;
 
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        mockedTicket = new Ticket(1L, 1L, 1L, 123);
     }
 
     @Test
     public void testbookTicket() {
-        Ticket ticket = new Ticket(1L, 1L, 1L, 123);
-        ticketService.bookTicket(ticket);
-        verify(ticketDao, times(1)).save(ticket);
+        Long id = 1L;
+
+        ticketService.bookTicket(id, 1L, 1L, 123);
+        ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
+        verify(ticketDao, times(1)).save(ticketCaptor.capture());
+
+        Ticket capturedTicket = ticketCaptor.getValue();
+
+        assertEquals(id, capturedTicket.getId());
     }
 
     @Test
