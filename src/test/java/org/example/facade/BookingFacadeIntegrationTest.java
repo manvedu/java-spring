@@ -1,6 +1,5 @@
 package org.example.facade;
 
-
 import org.example.model.User;
 import org.example.model.Event;
 import org.example.model.Ticket;
@@ -9,13 +8,9 @@ import org.example.service.UserService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import static org.junit.Assert.*;
 
 public class BookingFacadeIntegrationTest {
-
-    //private BookingFacadeImpl bookingFacade;
-
 
     @Test
     public void testBookingFacade() {
@@ -28,8 +23,7 @@ public class BookingFacadeIntegrationTest {
 
         Long userId = 1L;
         String userName = "testUser";
-        User user = new User(userId, userName, "john@example.com");
-        bookingFacade.createUser(user);
+        User user = bookingFacade.createUser(userId, userName, "john@example.com");
 
         User createdUser = userService.getUser(userId) ;
         assertEquals(userName, createdUser.getName());

@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
+import org.mockito.ArgumentCaptor;
 import static org.junit.Assert.*;
 
 public class UserServiceTest {
@@ -19,17 +20,29 @@ public class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
+    private User mockedUser;
 
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        mockedUser = new User(1L, "Michael Jackson", "mjackson@example.com");
     }
 
     @Test
     public void testCreateUser() {
-        User user = new User(1L, "Michael Jackson", "mjackson@example.com");
-        userService.createUser(user);
-        verify(userDao, times(1)).save(user);
+        Long userId = 1L;
+        String userName = "Michael Jackson";
+        String email = "mjackson@example.com";
+
+        userService.createUser(userId, userName, email);
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userDao, times(1)).save(userCaptor.capture());
+
+        User capturedUser = userCaptor.getValue();
+
+        assertEquals(userId, capturedUser.getId());
+        assertEquals(userName, capturedUser.getName());
     }
 
     @Test

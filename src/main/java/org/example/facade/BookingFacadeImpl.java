@@ -20,8 +20,8 @@ public class BookingFacadeImpl implements BookingFacade{
     }
 
     @Override
-    public User createUser(User user) {
-        return userService.createUser(user);
+    public User createUser(Long id, String name, String email) {
+        return userService.createUser(id, name, email);
     }
 
     @Override

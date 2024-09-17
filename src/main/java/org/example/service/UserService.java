@@ -17,7 +17,8 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public User createUser(User user) {
+    public User createUser(Long id, String name, String email) {
+        User user = new User(id, name, email);
         logger.info("UserService - createUser: " + user.getName());
         return userDao.save(user);
     }

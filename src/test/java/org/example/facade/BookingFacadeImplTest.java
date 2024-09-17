@@ -42,14 +42,14 @@ public class BookingFacadeImplTest {
 
         Long userId = 1L;
         String userName = "Michael Jackson";
+        String email = "mjackson@testing.com";
 
-        User user = new User(userId, userName, "mjackson@testing.com");
-        when(userService.createUser(user)).thenReturn(user);
-        User createdUser = bookingFacade.createUser(user);
+        User user = new User(userId, userName, email);
+        when(userService.createUser(userId, userName, email)).thenReturn(user);
+        User createdUser = bookingFacade.createUser(userId, userName, email);
 
-        verify(userService, times(1)).createUser(user);
+        verify(userService, times(1)).createUser(userId, userName, email);
         assertEquals(userName, createdUser.getName());
-
     }
 
     @Test
