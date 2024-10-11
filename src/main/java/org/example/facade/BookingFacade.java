@@ -1,11 +1,14 @@
 package org.example.facade;
 
-import org.example.model.User;
-import org.example.model.Event;
-import org.example.model.Ticket;
+import org.example.booking.model.Event;
+import org.example.booking.model.Ticket;
 
 public interface BookingFacade {
-    User createUser(Long id, String name, String email);
-    Event createEvent(Long id, String title, String description, String date);
-    Ticket bookTicket(Long id, Long eventId, Long userId, int seatNumber);
+    void createUser(Long id, String name, String email);
+
+    void refillAccount(Long userId, double amount);
+
+    void bookTicket(Long userId, Long eventId, int seatNumber);
+
+    Event getEvent(Long eventId);
 }
