@@ -1,6 +1,6 @@
-package com.example.dao;
+package org.example.dao;
 
-import com.example.booking.model.UserAccount;
+import org.example.model.UserAccount;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

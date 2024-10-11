@@ -1,7 +1,7 @@
 package com.example.service;
 
-import com.example.booking.dao.UserAccountDao;
-import com.example.booking.model.UserAccount;
+import org.example.dao.UserAccountDao;
+import org.example.model.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

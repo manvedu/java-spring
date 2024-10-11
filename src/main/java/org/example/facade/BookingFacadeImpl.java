@@ -1,11 +1,11 @@
-package com.example.facade;
+package org.example.facade;
 
-import com.example.model.Event;
-import com.example.model.Ticket;
-import com.example.model.UserAccount;
-import com.example.service.UserAccountService;
-import com.example.service.EventService;
-import com.example.service.TicketService;
+import org.example.model.Event;
+import org.example.model.Ticket;
+import org.example.model.UserAccount;
+import org.example.service.UserAccountService;
+import org.example.service.EventService;
+import org.example.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
