@@ -1,23 +1,9 @@
-package org.example.dao;
+package com.example.dao;
 
-import org.example.model.Event;
+import com.example.booking.model.Event;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class EventDao {
-    private Map<Long, Event> eventStorage = new HashMap<>();
-
-    public Event save(Event event) {
-        eventStorage.put(event.getId(), event);
-        return event;
-    }
-
-    public Event getById(Long id) {
-        return eventStorage.get(id);
-    }
-
-    public Map<Long, Event> getAll() {
-        return eventStorage;
-    }
+@Repository
+public interface EventDao extends CrudRepository<Event, Long> {
 }

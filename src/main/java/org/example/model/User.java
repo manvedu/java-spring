@@ -1,9 +1,21 @@
-package org.example.model;
+package com.example.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String email;
+
+    public User() {
+        // Default constructor
+    }
 
     public User(Long id, String name, String email) {
         this.id = id;
@@ -12,12 +24,26 @@ public class User {
     }
 
     public Long getId() {
-        System.out.println("User model getId");
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
-        System.out.println("User model getId");
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.facade.BookingFacade;
+import org.example.facade.BookingFacade;git
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

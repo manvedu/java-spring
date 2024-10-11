@@ -1,43 +1,38 @@
-package org.example.facade;
+package com.example.booking.facade;
 
-import org.example.model.User;
-import org.example.model.Event;
-import org.example.model.Ticket;
-import org.example.service.*;
-import org.example.service.UserService;
+import com.example.booking.model.Event;
+import com.example.booking.model.User;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
 
 public class BookingFacadeIntegrationTest {
 
+	@Autowired
+	private BookingFacade bookingFacade;
+
+	@Before
+	public void setUp() {
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		bookingFacade = context.getBean("bookingFacade", BookingFacade.class);
+	}
+
 	@Test
-		public void testBookingFacade() {
-			ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+	public void testRefillAccountAndBooking() {
+		bookingFacade.refillAccount(1L, 100.00);
 
-			BookingFacade bookingFacade = context.getBean("bookingFacade", BookingFacade.class);
-			UserService userService = context.getBean("userService", UserService.class);
-			EventService eventService = context.getBean("eventService", EventService.class);
-			TicketService ticketService = context.getBean("ticketService", TicketService.class);
+		Event event = new Event();
+		event.setTitle("Concert");
+		event.setDate("2023-12-12");
+		event.setTicketPrice(50.00);
+		bookingFacade.createEvent(event);
 
-			Long userId = 1L;
-			String userName = "testUser";
-			User user = bookingFacade.createUser(userId, userName, "john@example.com");
+		bookingFacade.bookTicket(1L, event.getId(), 1);
 
-			User createdUser = userService.getUser(userId) ;
-			assertEquals(userName, createdUser.getName());
-
-			Long eventId = 1L;
-      Event event = bookingFacade.createEvent(eventId, "Concert", "It' a festival", "2014-10-10");
-
-      Event createdEvent = eventService.getEvent(event.getId());
-      assertEquals(eventId, createdEvent.getId());
-
-      Long ticketId = 7L;
-      Ticket ticket = bookingFacade.bookTicket(ticketId, user.getId(), event.getId(), 333);
-
-      Ticket bookedTicket = ticketService.getTicket(ticket.getId());
-      assertEquals(ticketId, bookedTicket.getId());
-    }
+		UserAccount account = bookingFacade.getAccount(1L);
+		assertEquals(50.00, account.getBalance(), 0.01);
+	}
 }
