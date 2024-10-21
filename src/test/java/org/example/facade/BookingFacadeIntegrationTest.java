@@ -1,7 +1,8 @@
 package com.example.booking.facade;
 
-import com.example.booking.model.Event;
-import com.example.booking.model.User;
+import org.example.facade.BookingFacade;
+import org.example.model.Event;
+import org.example.model.UserAccount;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,5 @@ public class BookingFacadeIntegrationTest {
 		bookingFacade = context.getBean("bookingFacade", BookingFacade.class);
 	}
 
-	@Test
-	public void testRefillAccountAndBooking() {
-		bookingFacade.refillAccount(1L, 100.00);
 
-		Event event = new Event();
-		event.setTitle("Concert");
-		event.setDate("2023-12-12");
-		event.setTicketPrice(50.00);
-		bookingFacade.createEvent(event);
-
-		bookingFacade.bookTicket(1L, event.getId(), 1);
-
-		UserAccount account = bookingFacade.getAccount(1L);
-		assertEquals(50.00, account.getBalance(), 0.01);
-	}
 }

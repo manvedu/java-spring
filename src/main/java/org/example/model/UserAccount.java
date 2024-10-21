@@ -17,10 +17,6 @@ public class UserAccount {
     @Column(nullable = false)
     private double balance;
 
-    public UserAccount() {
-        // Default constructor
-    }
-
     public UserAccount(User user, double balance) {
         this.user = user;
         this.balance = balance;
@@ -49,4 +45,5 @@ public class UserAccount {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
 }

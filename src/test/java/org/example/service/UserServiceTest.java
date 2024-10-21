@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 import org.mockito.ArgumentCaptor;
+
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 
 public class UserServiceTest {
@@ -50,12 +53,12 @@ public class UserServiceTest {
         String userName = "Michael Jackson";
         Long userId = 1L;
         User user = new User(userId, userName, "mjackson@example.com");
-        when(userDao.getById(userId)).thenReturn(user);
+        when(userDao.findById(userId)).thenReturn(Optional.of(user));
 
         User previousUser = userService.getUser(userId);
         System.out.println(previousUser + "the namecito " + previousUser.getName() );
 
         assertEquals(userName, previousUser.getName());
-        verify(userDao, times(1)).getById(1L);
+        verify(userDao, times(1)).findById(1L);
     }
 }

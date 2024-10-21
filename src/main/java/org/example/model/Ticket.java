@@ -14,10 +14,6 @@ public class Ticket {
     private Long eventId;
     private int seatNumber;
 
-    public Ticket() {
-        // Default constructor
-    }
-
     public Ticket(Long userId, Long eventId, int seatNumber) {
         this.userId = userId;
         this.eventId = eventId;

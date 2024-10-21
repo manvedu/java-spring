@@ -6,24 +6,23 @@ import javax.persistence.*;
 @Table(name = "events")
 public class Event {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
     private String date;
+    private String description;
 
     @Column(nullable = false)
     private double ticketPrice;
 
-    public Event() {
-        // Default constructor
-    }
-
-    public Event(Long id, String title, String date, double ticketPrice) {
+    public Event(Long id, String title, String date, String description, double ticketPrice) {
         this.id = id;
         this.title = title;
         this.date = date;
+        this.description = description;
         this.ticketPrice = ticketPrice;
     }
 

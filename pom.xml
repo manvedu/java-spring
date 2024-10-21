@@ -9,17 +9,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>5.3.10</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -27,11 +21,6 @@
             <version>5.3.10</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>5.3.10</version>
-        </dependency>
 
         <!-- For loggers -->
         <dependency>
@@ -74,7 +63,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.3.10</version> <!-- Use the version compatible with your Spring setup -->
+            <version>5.3.10</version>
             <scope>test</scope>
         </dependency>
 
