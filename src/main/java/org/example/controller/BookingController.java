@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/booking")
+@RequestMapping("/api")
 public class BookingController {
 
     private final BookingFacade bookingFacade;
@@ -33,86 +33,76 @@ public class BookingController {
         this.bookingFacade = bookingFacade;
     }
 
-    @PostMapping("/createUser")
-    public User createUser(@RequestParam Long id,
-                           @RequestParam String name,
-                           @RequestParam String email) {
-        return bookingFacade.createUser(id, name, email);
+    // User Resource Endpoints
+    @PostMapping("/users")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = bookingFacade.createUser(user.getId(), user.getName(), user.getEmail());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
-    @PostMapping("/createEvent")
-    public Event createEvent(@RequestParam Long id,
-                             @RequestParam String title,
-                             @RequestParam String description,
-                             @RequestParam String date) {
-        return bookingFacade.createEvent(id, title, description, date);
-    }
-
-    @PostMapping("/bookTicket")
-    public Ticket bookTicket(@RequestParam Long id,
-                             @RequestParam Long eventId,
-                             @RequestParam Long userId,
-                             @RequestParam int seatNumber) {
-        return bookingFacade.bookTicket(id, eventId, userId, seatNumber);
-    }
-
-    @GetMapping("/getUser")
-    public ModelAndView getUser(@RequestParam Long id) {
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
         User user = bookingFacade.getUser(id);
-        ModelAndView modelAndView = new ModelAndView("user");
         if (user != null) {
-            modelAndView.addObject("user", user);
-        } else {
-            modelAndView.setViewName("error");  // Redirects to an error template if user not found
-            modelAndView.addObject("message", "User not found.");
+            return ResponseEntity.ok(user);
         }
-        return modelAndView;
+        return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/getUsersByName")
-    public ModelAndView getUsersByName(@RequestParam String name) {
-        List<User> users = bookingFacade.getUsersByName(name);
-        ModelAndView modelAndView = new ModelAndView("users");
-        modelAndView.addObject("users", users);
-        return modelAndView;
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getUsersByName(@RequestParam(required = false) String name) {
+        List<User> users = (name != null) ? bookingFacade.getUsersByName(name) : bookingFacade.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/preloadTickets")
-    public String preloadTickets(@RequestParam String filePath) {
+    // Event Resource Endpoints
+    @PostMapping("/events")
+    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        Event createdEvent = bookingFacade.createEvent(event.getId(), event.getTitle(), event.getDescription(), event.getDate());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
+    }
+
+    @GetMapping("/events")
+    public ResponseEntity<List<Event>> getAllEvents() {
+        return ResponseEntity.ok(bookingFacade.getAllEvents());
+    }
+
+    // Ticket Resource Endpoints
+    @PostMapping("/tickets")
+    public ResponseEntity<Ticket> bookTicket(@RequestBody Ticket ticket) {
+        Ticket bookedTicket = bookingFacade.bookTicket(ticket.getId(), ticket.getEventId(), ticket.getUserId(), ticket.getSeatNumber());
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookedTicket);
+    }
+
+    @PostMapping("/tickets/batch")
+    public ResponseEntity<String> preloadTickets(@RequestParam String filePath) {
         try {
             bookingFacade.preloadTickets(filePath);
-            return "Batch ticket creation successful";
+            return ResponseEntity.ok("Batch ticket creation successful");
         } catch (Exception e) {
-            return "Failed to preload tickets: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to preload tickets: " + e.getMessage());
         }
     }
-
 /*
-    @GetMapping(value = "/api/booking/getBookedTickets", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/tickets/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     public void getBookedTicketsPdf(
             @RequestParam Long userId,
             @RequestParam int pageSize,
             @RequestParam int pageNum,
-            @RequestHeader(HttpHeaders.ACCEPT) String acceptHeader,
             HttpServletResponse response) throws IOException, DocumentException {
-
-        if (!MediaType.APPLICATION_PDF_VALUE.equals(acceptHeader)) {
-            throw new IllegalArgumentException("This endpoint only supports PDF responses.");
-        }
 
         User user = bookingFacade.getUser(userId);
         List<Ticket> tickets = bookingFacade.getBookedTickets(user, pageSize, pageNum);
 
-        // Set the content type and create the PDF document
         response.setContentType(MediaType.APPLICATION_PDF_VALUE);
         Document document = new Document();
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
 
-        // Add content to the PDF
         document.add(new Paragraph("Booked Tickets for User: " + user.getName()));
         document.add(new Paragraph("Email: " + user.getEmail()));
-        document.add(new Paragraph(" ")); // Add space
+        document.add(new Paragraph(" "));
 
         for (Ticket ticket : tickets) {
             document.add(new Paragraph("Ticket ID: " + ticket.getId() +
@@ -124,7 +114,4 @@ public class BookingController {
     }
 
  */
-
-
-
 }

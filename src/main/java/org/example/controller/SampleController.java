@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class SampleController {
 
     @GetMapping("/testException")
-    public String testException(@RequestParam(required = false) String name) {
+    public ResponseEntity<String> testException(@RequestParam(required = false) String name) {
         if (name == null) {
-            throw new IllegalArgumentException("Name parameter is required.");
+            return ResponseEntity.badRequest().body("Name parameter is required.");
         }
-        return "Hello, " + name;
+        return ResponseEntity.ok("Hello, " + name);
     }
 }
