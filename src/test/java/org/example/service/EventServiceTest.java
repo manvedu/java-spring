@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.*;
 import org.mockito.ArgumentCaptor;
+
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 
 public class EventServiceTest {
@@ -25,7 +28,7 @@ public class EventServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockedEvent = new Event(1L, "Michael Concert", "Just a normal concert"," 2024-10-10" );
+        mockedEvent = new Event(1L, "Michael Concert", " 2024-10-10", "Just a normal concert", 12.3 );
     }
 
     @Test
@@ -34,8 +37,9 @@ public class EventServiceTest {
         String title = "Michael Concert";
         String description = "Just a normal concert";
         String date = " 2024-10-10";
+        Double ticketPrice = 123.4;
 
-        eventService.createEvent(id, title, description, date);
+        eventService.createEvent(id, title, description, date, ticketPrice);
 
         ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
         verify(eventDao, times(1)).save(eventCaptor.capture());
@@ -49,12 +53,13 @@ public class EventServiceTest {
     public void testGetEvent() {
         String title = "Michael Jackson";
         Long eventId = 1L;
-        Event event = new Event(eventId, "Michael Concert", "Just a normal concert"," 2024-10-10" );
-        when(eventDao.getById(eventId)).thenReturn(event);
+        Event event = new Event(eventId, "Michael Concert", " 2024-10-10" , "Just a normal concert",12.3);
+        when(eventDao.findById(eventId)).thenReturn(Optional.of(event));
+
 
         Event previousEvent = eventService.getEvent(eventId);
 
         assertEquals(eventId, previousEvent.getId());
-        verify(eventDao, times(1)).getById(eventId);
+        verify(eventDao, times(1)).findById(eventId);
     }
 }

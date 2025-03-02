@@ -9,17 +9,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>5.3.10</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -27,11 +21,6 @@
             <version>5.3.10</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>5.3.10</version>
-        </dependency>
 
         <!-- For loggers -->
         <dependency>
@@ -74,11 +63,51 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.3.10</version> <!-- Use the version compatible with your Spring setup -->
+            <version>5.3.10</version>
             <scope>test</scope>
         </dependency>
 
+            <!-- Spring Context -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>5.3.24</version>
+            </dependency>
 
+            <!-- Spring Data JPA -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>2.7.8</version>
+            </dependency>
+
+            <!-- Hibernate -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.6.12.Final</version>
+            </dependency>
+
+            <!-- JPA API for annotations like @Entity, @Table, etc. -->
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>javax.persistence-api</artifactId>
+                <version>2.2</version>
+            </dependency>
+
+            <!-- Spring Transaction Management -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>5.3.24</version>
+            </dependency>
+
+            <!-- MySQL Connector for Database Connectivity (replace with your DBMS if different) -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.32</version>
+            </dependency>
 
 
     </dependencies>

@@ -4,13 +4,16 @@ package org.example.facade;
 import org.example.model.Event;
 import org.example.model.Ticket;
 import org.example.model.User;
+import org.example.model.UserAccount;
 import org.example.service.UserService;
 import org.example.service.EventService;
 import org.example.service.TicketService;
+import org.example.service.UserAccountService;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -29,6 +32,9 @@ public class BookingFacadeImplTest {
     @Mock
     private TicketService ticketService;
 
+    @Mock
+    private UserAccountService userAccountService;
+
     @InjectMocks
     private BookingFacadeImpl bookingFacade;
 
@@ -44,12 +50,15 @@ public class BookingFacadeImplTest {
         String userName = "Michael Jackson";
         String email = "mjackson@testing.com";
 
-        User user = new User(userId, userName, email);
-        when(userService.createUser(userId, userName, email)).thenReturn(user);
-        User createdUser = bookingFacade.createUser(userId, userName, email);
+        bookingFacade.createUser(userId, userName, email);
 
-        verify(userService, times(1)).createUser(userId, userName, email);
-        assertEquals(userName, createdUser.getName());
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userService, times(1)).saveUser(userCaptor.capture());
+
+        User capturedUser = userCaptor.getValue();
+        assertEquals(userId, capturedUser.getId());
+        assertEquals(userName, capturedUser.getName());
+        assertEquals(email, capturedUser.getEmail());
     }
 
     @Test
@@ -58,24 +67,32 @@ public class BookingFacadeImplTest {
         String title = "Michael Jackson";
         String description = "Just a normal concert";
         String date = " 2024-10-10";
-        Event event = new Event(eventId, title, description, date);
+        Double ticketPrice = 123.0;
+        Event event = new Event(eventId, title, date, description, ticketPrice);
 
-        when(eventService.createEvent(eventId, title, description, date)).thenReturn(event);
-        Event createdEvent = bookingFacade.createEvent(eventId, title, description, date);
+        bookingFacade.createEvent(eventId, title, date, description, ticketPrice);
 
-        verify(eventService, times(1)).createEvent(eventId, title, description, date);
-        assertEquals(eventId, createdEvent.getId());
+        verify(eventService, times(1)).createEvent(eventId, title, date, description, ticketPrice);
     }
 
     @Test
     public void testBookTicket() {
-        Long ticketId = 1L;
-        Ticket ticket = new Ticket(ticketId, 1L, 1L, 123);
+        Long userId = 1L;
+        Long eventId = 2L;
+        int seatNumber = 123;
 
-        when(ticketService.bookTicket(ticketId, 1L, 1L, 123)).thenReturn(ticket);
-        Ticket createdTicket = bookingFacade.bookTicket(ticketId, 1L, 1L, 123);
+        UserAccount userAccount = new UserAccount(new User(userId, "Michael", "mjackson@testing.com"), 500.0);
+        when(userAccountService.getAccount(userId)).thenReturn(userAccount);
 
-        verify(ticketService, times(1)).bookTicket(ticketId, 1L, 1L, 123);
-        assertEquals(ticketId, createdTicket.getId());
+        Event event = new Event(eventId, "Concert", "2024-10-10", "Music Event", 100.0);
+        when(eventService.getEvent(eventId)).thenReturn(event);
+
+        bookingFacade.bookTicket(userId, eventId, seatNumber);
+
+        verify(eventService, times(1)).getEvent(eventId);
+        verify(userAccountService, times(1)).getAccount(userId);
+        verify(ticketService, times(1)).bookTicket(anyLong(), eq(eventId), eq(seatNumber));
+
+
     }
 }

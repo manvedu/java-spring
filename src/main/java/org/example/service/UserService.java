@@ -1,12 +1,15 @@
 package org.example.service;
 
 import org.example.dao.UserDao;
+import org.example.model.Ticket;
 import org.example.model.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
@@ -25,6 +28,12 @@ public class UserService {
 
     public User getUser(Long id) {
         logger.info("UserService - getUser by id: " + id);
-        return userDao.getById(id);
+        Optional<User> optionalUser = userDao.findById(id);
+        return optionalUser.orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+    }
+
+    @Autowired
+    public void saveUser(User user) {
+        userDao.save(user);
     }
 }

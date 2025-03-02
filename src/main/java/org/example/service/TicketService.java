@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 public class TicketService {
     private static final Logger logger = LoggerFactory.getLogger(TicketService.class);
     private TicketDao ticketDao;
@@ -17,15 +19,16 @@ public class TicketService {
         this.ticketDao = ticketDao;
     }
 
-    public Ticket bookTicket(Long id, Long eventId, Long userId, int seatNumber) {
-        Ticket ticket = new Ticket(id, eventId, userId, seatNumber);
+    public Ticket bookTicket( Long userId, Long eventId, int seatNumber) {
+        Ticket ticket = new Ticket( userId, eventId,seatNumber);
         logger.info("TicketService - bookTicket: " + ticket);
         return ticketDao.save(ticket);
     }
 
     public Ticket getTicket(Long id) {
         logger.info("TicketService - getTicket by id: " + id);
-        return ticketDao.getById(id);
+        Optional<Ticket> optionalTicket = ticketDao.findById(id);
+        return optionalTicket.orElseThrow(() -> new RuntimeException("Ticket not found with ID: " + id));
     }
 }
 
